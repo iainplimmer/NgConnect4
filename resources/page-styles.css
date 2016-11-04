@@ -1,0 +1,76 @@
+
+.header {
+    padding-top: 50px;
+    padding-bottom: 20px;
+    color: #ffffff;
+    text-shadow: 0 1px 0 rgba(0,0,0,.1);
+    background-color: #FFA500;
+}
+
+.score-board {
+    padding: 20px 0;
+    color: #000000;
+    text-shadow: 0 1px 0 rgba(0,0,0,.1);
+                
+}
+
+.red {
+    color: red;
+}
+
+.yellow {
+    color: yellow;
+}
+.white {
+    color:white;
+}
+
+.game-board {
+    padding: 20px 0;                        
+}
+
+.header p {
+    color: #ffedcc;
+}
+
+.header a {
+    color: #ffffff;
+}
+
+.modal {
+    display:block;
+}
+
+.modal-header,
+.btn-default {
+    color: #ffffff;    
+    background-color: #e59400;
+}
+
+.btn-group {
+    padding-top: 30px;
+}
+
+.btn-primary, .btn-primary:hover {
+    background-color: #e59400;
+    border-color: #cc8400;    
+}
+
+.active {
+    background-color: #cdbfe3 !important;
+    color: #ffffff !important;
+    border-color: #cdbfe3 !important;
+    box-shadow:none !important;
+}
+
+
+.modal-dialog {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    margin: auto;
+    width:300px;
+    height:300px;
+}

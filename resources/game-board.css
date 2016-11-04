@@ -1,0 +1,18 @@
+table { 
+    padding: 0px; 
+}
+
+tr td { 
+    width: 40px; 
+    height: 40px; 
+    border: 1px solid #1c1c1c; 
+    font-family: sans-serif; 
+    font-size: 30px; 
+    text-align: center; 
+    font-weight: bold;
+}
+
+tr td:hover { 
+    background: #cdbfe3;; 
+    cursor: pointer; 
+}
