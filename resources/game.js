@@ -1,15 +1,16 @@
 (function () {
 angular.module('ngNoughtsAndCrosses', [])
     .filter('ViewCounter', function () {
+        //  This filter is used to return the name to show the class on the screen for the counter colour        
         return function (input) {    
             if (input == '-1') {                
                 return 'white';
             }
             else if (input == 1) {
-                return 'red'; //$sce.trustAs('<i class="fa fa-circle red" aria-hidden="true">' || 'html', value);
+                return 'red'; 
             }
             else if (input == 2) {
-                return 'yellow'; //$sce.trustAs('<i class="fa fa-circle yellow" aria-hidden="true">' || 'html', value);
+                return 'yellow'; 
             }
             else {
                 return input;
@@ -22,7 +23,8 @@ angular.module('ngNoughtsAndCrosses', [])
         //  Let's initialise the board here with the game status, turn, player number and some messages
         vm.ResetGame = function () {
             
-            //  Data representation of the counters on the board
+            //  Data representation of the counters on the board, basically an array of arrays.
+            //  [0][0] is bottom left.
             vm.Rows = [ 
                 ['-1','-1','-1','-1','-1','-1','-1'],
                 ['-1','-1','-1','-1','-1','-1','-1'],
@@ -44,13 +46,16 @@ angular.module('ngNoughtsAndCrosses', [])
         //  Function that is used to, guess what?
         function CheckWinner (player) {
 
-            
-            //  Let's loop horizontally first
+            /*      THIS WAS THE ORIGINAL ALGORITHM AND IT WORKS HORIZONTALLY AND VERTICALLY
+                    BUT FOUND THAT THE DIAGONAL WAS CONFUSING TO TEST, SO I'VE READJUSTED THE
+                    ALGORITHM TO BE MORE EXPRESSIVE RATHER THAN MATHEMATICAL :)
+
             for(var i=0;i<6;i++) {                
                 for(var j=0;j<7;j++) {
                     if (vm.Rows[i][j] == player) {
                         vm.count++;                        
                         if (vm.count >= 4) {
+                            console.log('horzontal win');
                             return true;
                         }
                     }
@@ -58,27 +63,49 @@ angular.module('ngNoughtsAndCrosses', [])
                         vm.count = 0;
                     }
                 }
-            } 
+            }*/ 
 
-            //  Let's loop vertically next
-            for(var i=0;i<7;i++) {                
-                for(var j=0;j<6;j++) {
-                    if (vm.Rows[j][i] == player) {
-                        vm.count++;
-                        if (vm.count >= 4) {
-                            return true;
-                        }
-                    }
-                    else {
-                        vm.count = 0;
-                    }
-                }
-            } 
-
-            //  Finally, let's loop diagonally
-
-            //  BRAIN IS NOW BROKEN, need to do diagonal now!!!!
+            //  Finally, let's work our way over each cell to check for a winner in one step now.
+            //  We start at the bottom left, and work to our top right, we don't ignore impossible
+            //  options for winning as this allows us to expand the connect four grid if we want. 
             
+            for(var r=0;r<6;r++) {                
+                for(var c=0;c<7;c++) {        
+
+                    //  Horizonal win check
+                    if (vm.Rows[r][c] == player &&
+                        vm.Rows[r][c+1] == player &&
+                        vm.Rows[r][c+2] == player &&
+                        vm.Rows[r][c+3] == player) {
+                        return true;
+                    }
+
+                    //  Now the vertical
+                    if (vm.Rows[r][c] == player &&
+                        (typeof vm.Rows[r+1] !== 'undefined') && vm.Rows[r+1][c] == player &&
+                        (typeof vm.Rows[r+2] !== 'undefined') && vm.Rows[r+2][c] == player &&
+                        (typeof vm.Rows[r+3] !== 'undefined') && vm.Rows[r+3][c] == player) {
+                        return true;
+                    }
+                    
+                    //  Diagonal, up to the right
+                    if (vm.Rows[r][c] == player &&
+                        (typeof vm.Rows[r+1] !== 'undefined') && vm.Rows[r+1][c+1] == player &&
+                        (typeof vm.Rows[r+2] !== 'undefined') && vm.Rows[r+2][c+2] == player &&
+                        (typeof vm.Rows[r+3] !== 'undefined') && vm.Rows[r+3][c+3] == player) {
+                        return true;
+                    }
+
+                    //  Diagonal, down to the right
+                    if (vm.Rows[r][c] == player &&
+                        (typeof vm.Rows[r-1] !== 'undefined') && vm.Rows[r-1][c+1] == player &&
+                        (typeof vm.Rows[r-2] !== 'undefined') && vm.Rows[r-2][c+2] == player &&
+                        (typeof vm.Rows[r-3] !== 'undefined') && vm.Rows[r-3][c+3] == player) {
+                        return true;
+                    }                    
+                    
+                }
+            }
             return false;
         }
 
@@ -104,7 +131,7 @@ angular.module('ngNoughtsAndCrosses', [])
                 }
 
                 if (vm.GameOver) {
-                    vm.GameOver = false;  
+                    //vm.GameOver = false;  
                     vm.ShowModal = true;
                 }
                 else if (vm.TurnNumber == (6*7)) {
