@@ -38,8 +38,7 @@ angular.module('ngNoughtsAndCrosses', [])
             vm.Player = '1';
             vm.Message = '';   
             vm.TurnNumber = 0;
-            vm.ShowModal = false;    
-            vm.count = 0;
+            vm.ShowModal = false;   
          
         }
 
